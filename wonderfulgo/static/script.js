@@ -219,7 +219,16 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(contentDiv);
 
         chatMessages.appendChild(wrapper);
-        requestAnimationFrame(() => { chatMessages.scrollTop = chatMessages.scrollHeight; });
+
+        requestAnimationFrame(() => {
+            if (sender === 'ai') {
+                 // AIの回答が始まった位置（アイコンやバブルのトップ）までスクロール
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // ユーザーのメッセージの時は、一番下までスクロール
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
     }
 
     function deleteMessage(id, element) {
@@ -577,4 +586,5 @@ document.addEventListener('DOMContentLoaded', () => {
             chatDeleteModeBtn.classList.toggle('active');
         });
     }
+
 });
