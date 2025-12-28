@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WONDERFULGO🐾</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- 1. MyPET 画面 -->
+        <div id="myPetScreen" class="screen active">
+            <header>
+                <h1>MyPET 🐾</h1>
+                <button id="resetButton" class="header-btn" title="データをリセット">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </header>
+            <main class="content-area">
+                <div class="profile-image-section">
+                    <div class="profile-image-upload">
+                        <label for="profile-image-input" class="profile-image-label">
+                            <img id="profile-image-preview" src="/static/nikukyu.png" alt="プロフィール画像"
+                                class="profile-image-circle">
+                            <div class="upload-icon-badge"><i class="fas fa-camera"></i></div>
+                        </label>
+                        <input type="file" id="profile-image-input" accept="image/*" style="display: none;">
+                    </div>
+                    <p class="profile-note">写真をタップして変更</p>
+                </div>
+
+                <form id="petInfoForm" class="pet-form">
+                    <!-- 基本情報 -->
+                    <div class="form-section">
+                        <h3 class="section-title">わんちゃんの基本情報</h3>
+                        <div class="form-group">
+                            <label for="dog_name">名前:</label>
+                            <input type="text" id="dog_name" placeholder="例：ポチ">
+                        </div>
+                        <div class="form-group">
+                            <label for="breed">犬種:</label>
+                            <select id="breed" required onchange="toggleOtherBreedInput()">
+                                <option value="">犬種を選択してください</option>
+                                <optgroup label="あ行">
+                                    <option value="アイリッシュセター">アイリッシュセター</option>
+                                    <option value="秋田犬">秋田犬</option>
+                                    <option value="アフガンハウンド">アフガンハウンド</option>
+                                    <option value="アメリカンコッカースパニエル">アメリカンコッカースパニエル</option>
+                                    <option value="イタリアングレーハウンド">イタリアングレーハウンド</option>
+                                    <option value="イングリッシュコッカースパニエル">イングリッシュコッカースパニエル</option>
+                                    <option value="ウェルシュコーギーペンブローク">ウェルシュコーギーペンブローク</option>
+                                </optgroup>
+                                <optgroup label="か行">
+                                    <option value="甲斐犬">甲斐犬</option>
+                                    <option value="キャバリア">キャバリア</option>
+                                    <option value="紀州犬">紀州犬</option>
+                                    <option value="グレートピレニーズ">グレートピレニーズ</option>
+                                    <option value="ゴールデンレトリバー">ゴールデンレトリバー</option>
+                                </optgroup>
+                                <optgroup label="さ行(柴犬等)">
+                                    <option value="サモエド">サモエド</option>
+                                    <option value="シーズー">シーズー</option>
+                                    <option value="シェットランドシープドッグ">シェットランドシープドッグ</option>
+                                    <option value="柴犬">柴犬</option>
+                                    <option value="豆柴">豆柴</option>
+                                    <option value="シベリアンハスキー">シベリアンハスキー</option>
+                                    <option value="ジャックラッセルテリア">ジャックラッセルテリア</option>
+                                    <option value="シュナウザー">シュナウザー</option>
+                                    <option value="スコティッシュテリア">スコティッシュテリア</option>
+                                    <option value="セントバーナード">セントバーナード</option>
+                                </optgroup>
+                                <optgroup label="た行(ダックス等)">
+                                    <option value="カニーンヘンダックスフンド">カニーンヘンダックスフンド</option>
+                                    <option value="ミニチュアダックスフンド">ミニチュアダックスフンド</option>
+                                    <option value="スタンダードダックスフンド">スタンダードダックスフンド</option>
+                                    <option value="ダルメシアン">ダルメシアン</option>
+                                    <option value="チワワ">チワワ</option>
+                                    <option value="狆">狆</option>
+                                    <option value="ドーベルマン">ドーベルマン</option>
+                                </optgroup>
+                                <optgroup label="な行">
+                                    <option value="日本スピッツ">日本スピッツ</option>
+                                    <option value="ニューファンドランド">ニューファンドランド</option>
+                                </optgroup>
+                                <optgroup label="は行（プードル等）">
+                                    <option value="バーニーズマウンテンドッグ">バーニーズマウンテンドッグ</option>
+                                    <option value="パグ">パグ</option>
+                                    <option value="パピヨン">パピヨン</option>
+                                    <option value="ビーグル">ビーグル</option>
+                                    <option value="ビションフリーゼ">ビションフリーゼ</option>
+                                    <option value="ティーカッププードル">ティーカッププードル</option>
+                                    <option value="タイニープードル">タイニープードル</option>
+                                    <option value="トイプードル">トイプードル</option>
+                                    <option value="ミニチュアプードル">ミニチュアプードル</option>
+                                    <option value="ミディアムプードル">ミディアムプードル</option>
+                                    <option value="スタンダードプードル">スタンダードプードル</option>
+                                    <option value="フレンチブルドッグ">フレンチブルドッグ</option>
+                                    <option value="ペキニーズ">ペキニーズ</option>
+                                    <option value="ボーダーコリー">ボーダーコリー</option>
+                                    <option value="ポメラニアン">ポメラニアン</option>
+                                    <option value="ボルゾイ">ボルゾイ</option>
+                                    <option value="ボストンテリア">ボストンテリア</option>
+                                </optgroup>
+                                <optgroup label="ま行">
+                                    <option value="マルチーズ">マルチーズ</option>
+                                    <option value="ミニチュアピンシャー">ミニチュアピンシャー</option>
+                                    <option value="ミニチュアシュナウザー">ミニチュアシュナウザー</option>
+                                </optgroup>
+                                <optgroup label="や・ら・わ行">
+                                    <option value="ヨークシャーテリア">ヨークシャーテリア</option>
+                                    <option value="ラブラドールレトリバー">ラブラドールレトリバー</option>
+                                    <option value="その他">その他</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!-- 「その他」を選んだ時だけ表示される入力欄 -->
+                        <div id="other_breed_container" class="form-group"
+                            style="display: none; margin-top: -10px; padding: 10px; background: #fff9f0; border-radius: 8px; border: 1px dashed #FF9800;">
+                            <label for="other_breed">具体的な犬種名:</label>
+                            <input type="text" id="other_breed" placeholder="例：ミックス（マルプー）、ボロニーズなど">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="gender">性別:</label>
+                                <select id="gender">
+                                    <option value="">選択</option>
+                                    <option value="オス">オス♂</option>
+                                    <option value="メス">メス♀</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="age">年齢:</label>
+                                <select id="age">
+                                    <option value="">選択</option>
+                                    <script>
+                                        for (let i = 0; i <= 25; i++) {
+                                            document.write(`<option value="${i}">${i}歳</option>`);
+                                        }
+                                    </script>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 体重の行 -->
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="weight">体重 (kg):</label>
+                                <select id="weight">
+                                    <option value="">選択</option>
+                                    <script>
+                                        for (let i = 0.5; i <= 40; i += 0.5) {
+                                            document.write(`<option value="${i.toFixed(1)}">${i.toFixed(1)}kg</option>`);
+                                        }
+                                    </script>
+                                    <option value="40以上">40kg以上</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="coat_type">被毛のタイプ:</label>
+                                <select id="coat_type" onchange="toggleCoatDetailInput()">
+                                    <option value="">選択</option>
+                                    <option value="短毛">短毛 (スムース)</option>
+                                    <option value="中毛">中毛 (ミディアム)</option>
+                                    <option value="長毛">長毛 (ロング)</option>
+                                    <option value="ワイヤー">ワイヤー</option>
+                                    <option value="巻き毛">巻き毛 (カーリー)</option>
+                                    <option value="その他">その他 (自由入力)</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="coat_color">毛色 (任意):</label>
+                                <input type="text" id="coat_color" placeholder="例: レッド">
+                            </div>
+                        </div>
+
+                        <!-- 被毛の詳細（ダブルコート、シュナウザーのプラッキング等）を入力する欄 -->
+                        <div id="coat_detail_container" class="form-group" style="display: none; margin-top: 5px;">
+                            <input type="text" id="coat_type_detail" placeholder="例: ダブルコート、硬めのワイヤー、等">
+                            <p class="profile-note" style="margin-top: 5px;">※ダブルコートや毛質のこだわりがあれば入力してください</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="neutered_spayed">避妊・去勢:</label>
+                            <select id="neutered_spayed">
+                                <option value="">選択</option>
+                                <option value="済">済</option>
+                                <option value="未">未</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allergies">アレルギー:</label>
+                            <input type="text" id="allergies" placeholder="例: 鶏肉、花粉">
+                        </div>
+                        <div class="form-group">
+                            <label for="medical_history">持病:</label>
+                            <input type="text" id="medical_history" placeholder="例: ヘルニア、パテラなど">
+                        </div>
+                        <div class="form-group">
+                            <label for="others">備考:</label>
+                            <input type="text" id="others" placeholder="寒がりなど">
+                        </div>
+                    </div>
+
+                    <!-- 性格・行動特性 -->
+                    <div class="form-section">
+                        <h3 class="section-title">性格・行動特性</h3>
+                        <div class="form-group">
+                            <label for="personality">性格:</label>
+                            <input type="text" id="personality" placeholder="例: 活発, 人懐っこい">
+                        </div>
+                        <div class="form-group">
+                            <label>他の犬との交流:</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="dog_interaction" value="積極的に遊ぶ">遊ぶ</label>
+                                <label><input type="radio" name="dog_interaction" value="距離を取る">距離取る</label>
+                                <label><input type="radio" name="dog_interaction" value="苦手">苦手</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>人との交流:</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="human_interaction" value="人懐っこい">人懐っこい</label>
+                                <label><input type="radio" name="human_interaction" value="苦手">苦手</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="barking_tendency">吠えやすさ:</label>
+                                <select id="barking_tendency">
+                                    <option value="">選択</option>
+                                    <option value="よく吠える">よく吠える</option>
+                                    <option value="たまに吠える">たまに吠える</option>
+                                    <option value="あまり吠えない">あまり吠えない</option>
+                                    <option value="吠えない">吠えない</option>
+                                    <option value="どちらでもない">どちらでもない</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="biting_habit">噛み癖:</label>
+                                <select id="biting_habit">
+                                    <option value="">選択</option>
+                                    <option value="あり">あり</option>
+                                    <option value="ややあり">ややあり</option>
+                                    <option value="なし">なし</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="walk_frequency_time">散歩の頻度:</label>
+                            <input type="text" id="walk_frequency_time" placeholder="例: 1日1回30分">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="exercise_level">運動量:</label>
+                                <select id="exercise_level">
+                                    <option value="">選択</option>
+                                    <option value="多い">多い</option>
+                                    <option value="普通">普通</option>
+                                    <option value="少ない">少ない</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="likes_water_play">水遊び:</label>
+                                <select id="likes_water_play">
+                                    <option value="">選択</option>
+                                    <option value="好き">好き</option>
+                                    <option value="嫌い">嫌い</option>
+                                    <option value="どちらでもない">どちらでもない</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <label for="car_sickness">車酔い:</label>
+                                <select id="car_sickness">
+                                    <option value="">選択</option>
+                                    <option value="あり">あり</option>
+                                    <option value="なし">なし</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="can_stay_alone">お留守番:</label>
+                                <input type="text" id="can_stay_alone" placeholder="例: 可 (4時間)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="training_status">しつけ:</label>
+                            <input type="text" id="training_status" placeholder="例: 基本的なしつけはできている">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">飼い主情報</h3>
+                        <div class="form-group"><label>居住地</label><input type="text" id="owner_residence"
+                                placeholder="例: 東京都 渋谷区"></div>
+                    </div>
+
+                    <button type="button" id="saveProfileButton" class="save-button">情報を保存する</button>
+                    <div style="height: 50px;"></div>
+                </form>
+            </main>
+        </div>
+        <!-- 2. PLAN 画面 -->
+        <div id="planConditionScreen" class="screen">
+            <header>
+                <h1>PLAN 📍</h1>
+            </header>
+            <main class="content-area">
+                <div class="intro-text">
+                    <h2>お出かけプラン作成</h2>
+                    <p>条件を入れるとAIが提案します</p>
+                </div>
+
+                <form id="planForm" class="pet-form">
+                    <div class="form-group">
+                        <label>行きたいエリア・場所 <span style="color:red; font-size:0.8em;">(必須)</span></label>
+                        <input type="text" id="target_area" placeholder="例：横浜、代々木公園、軽井沢">
+                    </div>
+                    <div class="form-group">
+                        <label>移動手段</label>
+                        <select id="transportation">
+                            <option value="車">車 🚗</option>
+                            <option value="電車・バス">電車・バス 🚃</option>
+                            <option value="徒歩">徒歩 🚶</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>所要時間</label>
+                        <select id="duration">
+                            <option value="半日（3〜4時間）">半日（3〜4時間）</option>
+                            <option value="1日ゆっくり">1日ゆっくり</option>
+                            <option value="2時間程度の散歩">2時間程度の散歩</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>今日の気分・要望</label>
+                        <textarea id="user_mood" placeholder="例：おしゃれなカフェでランチしたい。あまり歩かずにのんびりしたい。"></textarea>
+                    </div>
+
+                    <button type="button" id="createPlanButton" class="action-button">
+                        <i class="fas fa-magic"></i> プランを作成する
+                    </button>
+
+                    <div id="plan-loading" class="loading-spinner" style="display: none; margin-top:20px;">
+                        <div class="spinner"></div>
+                        <span>AIがプランを作成中...<br>(15秒ほどお待ちください)</span>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- 3. GUIDE 画面 -->
+        <div id="guideScreen" class="screen">
+            <header>
+                <h1>GUIDE 🗺️</h1>
+            </header>
+            <main class="content-area">
+                <div id="guideResults" class="guide-list">
+                    <div class="empty-state">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>まだプランがありません。<br>「PLAN」画面で作ってみよう！</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!--  4. FAVORITE 画面 (CHATの前に追加) -->
+        <div id="favScreen" class="screen">
+            <header>
+                <h1>FAVORITE 💗</h1>
+            </header>
+            <main class="content-area">
+                <div id="favList" class="guide-list">
+                    <!-- ここにお気に入りが表示されます -->
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <p>お気に入りはまだありません。<br>GUIDEの「♡」を押して登録しよう！</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 5. CHAT 画面 -->
+
+        <div id="chatScreen" class="screen">
+            <header>
+                <h1>CHAT 💬</h1>
+                <button id="chatDeleteModeBtn" class="header-btn" style="right: 15px;" title="メッセージ整理">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </header>
+            <main class="content-area chat-main">
+                <div id="chatMessages" class="chat-messages">
+                    <!-- チャットメッセージはJSで動的に追加されます -->
+                    <div class="chat-message-wrapper ai">
+                        <img src="/static/ai-icon.png" class="chat-message-icon"
+                            onerror="this.src='/static/default-user.png'">
+                        <div>
+                            <div class="chat-message ai">
+                                こんにちは！🐶<br>愛犬との生活や旅行について、なんでも相談してくださいね。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="chat-loading" class="loading-spinner" style="display: none;">
+                    <div class="spinner"></div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="相談メッセージ..." autocomplete="off">
+                    <button id="sendMessageButton"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </main>
+        </div>
+
+        <nav class="footer-nav">
+            <button class="nav-item active" data-screen="myPetScreen">
+                <i class="fas fa-dog"></i>
+                <span>MyPET</span>
+            </button>
+            <button class="nav-item" data-screen="planConditionScreen">
+                <i class="fas fa-tasks"></i>
+                <span>PLAN</span>
+            </button>
+            <button class="nav-item" data-screen="guideScreen">
+                <i class="fas fa-map-location-dot"></i>
+                <span>GUIDE</span>
+            </button>
+            <button class="nav-item" data-screen="favScreen">
+                <i class="fas fa-heart"></i>
+                <span>FAV</span>
+            </button>
+            <button class="nav-item" data-screen="chatScreen">
+                <i class="fas fa-comments"></i>
+                <span>CHAT</span>
+            </button>
+        </nav>
+    </div> <!-- app-containerの閉じタグ -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html
