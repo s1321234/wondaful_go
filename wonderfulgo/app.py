@@ -43,7 +43,8 @@ def chat():
     pet_profile = "【愛犬の詳細プロファイル】\n"
     labels = {
         "dog_name":"名前","breed":"犬種","gender":"性別","age":"年齢","weight":"体重",
-        "personality":"性格","owner_residence":"居住地","dog_interaction":"他の犬との交流",
+         "coat_type":"毛の長さ", "coat_color":"毛色",
+         "personality":"性格","owner_residence":"居住地","dog_interaction":"他の犬との交流",
         "human_interaction":"人との交流","medical_history":"持病","allergies":"アレルギー",
         "exercise_level":"運動量","car_sickness":"車酔い","barking_tendency":"吠え癖","biting_habit":"噛み癖",
         "walk_frequency_time":"散歩の頻度","likes_water_play":"水遊びの好き嫌い","training_status":"しつけ状況"
